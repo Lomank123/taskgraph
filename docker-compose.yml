@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: debug/Dockerfile
-    command: sh -c 'goose postgres "host=$${POSTGRES_HOST} port=5432 user=$${POSTGRES_USER} password=$${POSTGRES_PASSWORD} dbname=$${POSTGRES_DB} sslmode=$${POSTGRES_SSL_MODE}" up && go run cmd/app/main.go'
+    command: sh -c 'goose postgres "host=$${POSTGRES_HOST} port=5436 user=$${POSTGRES_USER} password=$${POSTGRES_PASSWORD} dbname=$${POSTGRES_DB} sslmode=$${POSTGRES_SSL_MODE}" up && go run cmd/app/main.go'
     volumes:
       - .:/app
     ports:

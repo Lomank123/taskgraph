@@ -4,6 +4,7 @@ import "taskgraph/utils"
 
 type Config struct {
 	App AppConfig
+	Postgres PostgresConfig
 }
 
 type AppConfig struct {
@@ -17,6 +18,7 @@ func LoadConfig() *Config {
 		App: AppConfig{
 			Port: utils.GetEnv("APP_PORT", "8000"),
 		},
+		Postgres: LoadPostgresConfig(),
 	}
 	return &Cfg
 }

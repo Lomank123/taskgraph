@@ -2,7 +2,7 @@ package http
 
 import (
 	"net/http"
-	"taskgraph/internal/handlers"
+	"taskgraph/internal/transport/http/handlers"
 )
 
 func SetupRouter() *http.ServeMux {

@@ -11,7 +11,6 @@ func LogMiddleware(next http.Handler) http.Handler {
 		// TODO: Print full info about request including body, headers, etc.
 		log.Println("Request: ", r.Method, r.URL.Path)
 		next.ServeHTTP(w, r)
-		// TODO: Print full info about response including body, status code, etc.
-		log.Println("Response: ", w.Header())
+		// Print full info about response including body, status code, etc.
 	})
 }

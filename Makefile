@@ -1,9 +1,11 @@
 run:
-	go run cmd/app/main.go
+	source .env &&go run cmd/app/main.go
 build:
 	go build -o bin/taskgraph cmd/app/main.go
 test:
 	go test ./...
+run-db:
+	source .env &&docker compose up -d taskgraph-db
 
 # Migrations
 

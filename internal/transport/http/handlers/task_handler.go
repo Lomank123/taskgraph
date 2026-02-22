@@ -3,8 +3,10 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"slices"
 	"taskgraph/internal/services"
 	"taskgraph/pkg/client/dto"
+	"taskgraph/pkg/client/enum"
 	"taskgraph/utils"
 
 	"github.com/google/uuid"
@@ -41,6 +43,14 @@ func (h taskHandler) Create(w http.ResponseWriter, r *http.Request) {
 	// Validate input
 	if reqPayload.Retries != nil && *reqPayload.Retries < 0 {
 		utils.HandleAPIError(w, http.StatusBadRequest, "invalid retries")
+		return
+	}
+	if reqPayload.Status != nil && !slices.Contains(enum.AllTaskStatuses, *reqPayload.Status) {
+		utils.HandleAPIError(w, http.StatusBadRequest, "invalid task status")
+		return
+	}
+	if !slices.Contains(enum.AllTaskTypes, reqPayload.Type) {
+		utils.HandleAPIError(w, http.StatusBadRequest, "invalid task type")
 		return
 	}
 

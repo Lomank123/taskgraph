@@ -5,9 +5,9 @@ CREATE TABLE IF NOT EXISTS tasks (
     status VARCHAR(50) NOT NULL,
     type VARCHAR(50) NOT NULL,
     retries INT NOT NULL DEFAULT 0,
-    error TEXT,
-    result TEXT,
-    payload TEXT,
+    error JSONB,
+    result JSONB,
+    payload JSONB,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     deleted_at TIMESTAMPTZ

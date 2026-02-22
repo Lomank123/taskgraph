@@ -1,0 +1,128 @@
+basePath: /api
+definitions:
+  taskgraph_pkg_client_dto.TaskCreateRequestDTO:
+    properties:
+      error:
+        additionalProperties: {}
+        type: object
+      payload:
+        additionalProperties: {}
+        type: object
+      result:
+        additionalProperties: {}
+        type: object
+      retries:
+        type: integer
+      status:
+        $ref: '#/definitions/taskgraph_pkg_client_enum.TaskStatus'
+      type:
+        $ref: '#/definitions/taskgraph_pkg_client_enum.TaskType'
+    type: object
+  taskgraph_pkg_client_dto.TaskCreateResponseDTO:
+    properties:
+      task:
+        $ref: '#/definitions/taskgraph_pkg_client_dto.TaskDTO'
+    type: object
+  taskgraph_pkg_client_dto.TaskDTO:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      error:
+        additionalProperties: {}
+        type: object
+      id:
+        type: string
+      payload:
+        additionalProperties: {}
+        type: object
+      result:
+        additionalProperties: {}
+        type: object
+      retries:
+        type: integer
+      status:
+        $ref: '#/definitions/taskgraph_pkg_client_enum.TaskStatus'
+      type:
+        $ref: '#/definitions/taskgraph_pkg_client_enum.TaskType'
+      updated_at:
+        type: string
+    type: object
+  taskgraph_pkg_client_dto.TaskGetByIDRequestDTO:
+    properties:
+      id:
+        type: string
+    type: object
+  taskgraph_pkg_client_dto.TaskGetByIDResponseDTO:
+    properties:
+      task:
+        $ref: '#/definitions/taskgraph_pkg_client_dto.TaskDTO'
+    type: object
+  taskgraph_pkg_client_enum.TaskStatus:
+    enum:
+    - pending
+    - running
+    - success
+    - failed
+    - cancelled
+    - timeout
+    type: string
+    x-enum-varnames:
+    - TaskStatusPending
+    - TaskStatusRunning
+    - TaskStatusSuccess
+    - TaskStatusFailed
+    - TaskStatusCancelled
+    - TaskStatusTimeout
+  taskgraph_pkg_client_enum.TaskType:
+    enum:
+    - http
+    - mq
+    type: string
+    x-enum-varnames:
+    - TaskTypeHttp
+    - TaskTypeMq
+info:
+  contact: {}
+  description: This is a task management server.
+  title: taskgraph API
+  version: "1.0"
+paths:
+  /v1/tasks/create:
+    post:
+      parameters:
+      - description: Task Create Request
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/taskgraph_pkg_client_dto.TaskCreateRequestDTO'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/taskgraph_pkg_client_dto.TaskCreateResponseDTO'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a task with the given payload and type
+  /v1/tasks/detail:
+    post:
+      parameters:
+      - description: Task Detail Request
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/taskgraph_pkg_client_dto.TaskGetByIDRequestDTO'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/taskgraph_pkg_client_dto.TaskGetByIDResponseDTO'
+      summary: Get details of a task by ID
+swagger: "2.0"

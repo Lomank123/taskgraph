@@ -8,8 +8,15 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	// Swagger docs
+	_ "taskgraph/docs"
 )
 
+// @title taskgraph API
+// @version 1.0
+// @description This is a task management server.
+// @BasePath /api
 func main() {
 	log.Println("Loading config...")
 	cfg := config.LoadConfig()

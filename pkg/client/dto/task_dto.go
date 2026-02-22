@@ -5,15 +5,30 @@ import (
 	"time"
 )
 
+type TaskDTO struct {
+	ID        string          `json:"id"`
+	CreatedAt time.Time       `json:"created_at"`
+	UpdatedAt time.Time       `json:"updated_at"`
+	DeletedAt time.Time       `json:"deleted_at"`
+	Status    enum.TaskStatus `json:"status"`
+	Type      enum.TaskType   `json:"type"`
+	Retries   int             `json:"retries"`
+	Result    map[string]any  `json:"result"`
+	Payload   map[string]any  `json:"payload"`
+	Error     map[string]any  `json:"error"`
+}
+
 type TaskCreateRequestDTO struct {
-	Payload string        `json:"payload"`
-	Type    enum.TaskType `json:"type"`
+	Payload map[string]any   `json:"payload"`
+	Type    enum.TaskType    `json:"type"`
+	Status  *enum.TaskStatus `json:"status"`
+	Retries *int             `json:"retries"`
+	Result  *map[string]any  `json:"result"`
+	Error   *map[string]any  `json:"error"`
 }
 
 type TaskCreateResponseDTO struct {
-	ID     string          `json:"id"`
-	Status enum.TaskStatus `json:"status"`
-	Type   enum.TaskType   `json:"type"`
+	Task TaskDTO `json:"task"`
 }
 
 type TaskGetByIDRequestDTO struct {
@@ -21,13 +36,5 @@ type TaskGetByIDRequestDTO struct {
 }
 
 type TaskGetByIDResponseDTO struct {
-	ID        string          `json:"id"`
-	Status    enum.TaskStatus `json:"status"`
-	Type      enum.TaskType   `json:"type"`
-	Retries   int             `json:"retries"`
-	Error     string          `json:"error"`
-	Result    string          `json:"result"`
-	Payload   string          `json:"payload"`
-	CreatedAt time.Time       `json:"created_at"`
-	UpdatedAt time.Time       `json:"updated_at"`
+	Task TaskDTO `json:"task"`
 }

@@ -1,0 +1,189 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a task management server.",
+        "title": "taskgraph API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/api",
+    "paths": {
+        "/v1/tasks/create": {
+            "post": {
+                "summary": "Create a task with the given payload and type",
+                "parameters": [
+                    {
+                        "description": "Task Create Request",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/taskgraph_pkg_client_dto.TaskCreateRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/taskgraph_pkg_client_dto.TaskCreateResponseDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tasks/detail": {
+            "post": {
+                "summary": "Get details of a task by ID",
+                "parameters": [
+                    {
+                        "description": "Task Detail Request",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/taskgraph_pkg_client_dto.TaskGetByIDRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/taskgraph_pkg_client_dto.TaskGetByIDResponseDTO"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "taskgraph_pkg_client_dto.TaskCreateRequestDTO": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "payload": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "result": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "retries": {
+                    "type": "integer"
+                },
+                "status": {
+                    "$ref": "#/definitions/taskgraph_pkg_client_enum.TaskStatus"
+                },
+                "type": {
+                    "$ref": "#/definitions/taskgraph_pkg_client_enum.TaskType"
+                }
+            }
+        },
+        "taskgraph_pkg_client_dto.TaskCreateResponseDTO": {
+            "type": "object",
+            "properties": {
+                "task": {
+                    "$ref": "#/definitions/taskgraph_pkg_client_dto.TaskDTO"
+                }
+            }
+        },
+        "taskgraph_pkg_client_dto.TaskDTO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "error": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "id": {
+                    "type": "string"
+                },
+                "payload": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "result": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "retries": {
+                    "type": "integer"
+                },
+                "status": {
+                    "$ref": "#/definitions/taskgraph_pkg_client_enum.TaskStatus"
+                },
+                "type": {
+                    "$ref": "#/definitions/taskgraph_pkg_client_enum.TaskType"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "taskgraph_pkg_client_dto.TaskGetByIDRequestDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "taskgraph_pkg_client_dto.TaskGetByIDResponseDTO": {
+            "type": "object",
+            "properties": {
+                "task": {
+                    "$ref": "#/definitions/taskgraph_pkg_client_dto.TaskDTO"
+                }
+            }
+        },
+        "taskgraph_pkg_client_enum.TaskStatus": {
+            "type": "string",
+            "enum": [
+                "pending",
+                "running",
+                "success",
+                "failed",
+                "cancelled",
+                "timeout"
+            ],
+            "x-enum-varnames": [
+                "TaskStatusPending",
+                "TaskStatusRunning",
+                "TaskStatusSuccess",
+                "TaskStatusFailed",
+                "TaskStatusCancelled",
+                "TaskStatusTimeout"
+            ]
+        },
+        "taskgraph_pkg_client_enum.TaskType": {
+            "type": "string",
+            "enum": [
+                "http",
+                "mq"
+            ],
+            "x-enum-varnames": [
+                "TaskTypeHttp",
+                "TaskTypeMq"
+            ]
+        }
+    }
+}

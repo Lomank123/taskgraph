@@ -16,6 +16,7 @@ func NewRouter(taskService services.TaskService) http.Handler {
 	mux.HandleFunc("POST /task", taskHandler.Create)
 	mux.HandleFunc("GET /task/{id}", taskHandler.GetByID)
 
+	// TODO: Apply middleware chain function
 	// Applying middlewares globally to the router
 	return middleware.LogMiddleware(
 		middleware.ResponseHeaderMiddleware(

@@ -1,9 +1,10 @@
 package handlers
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
 	"taskgraph/internal/services"
+	"taskgraph/pkg/client/dto"
 )
 
 type TaskHandler interface {
@@ -20,6 +21,18 @@ func NewTaskHandler(service services.TaskService) TaskHandler {
 }
 
 func (h taskHandler) Create(w http.ResponseWriter, r *http.Request) {
+	// Decode request body
+	var payload dto.TaskCreateRequestDTO
+	err := json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(`{"error": "` + err.Error() + `"}`))
+		return
+	}
+
+	// TODO: Add input validation step
+
+	// Execute service method
 	task, err := h.service.Create("dummy payload")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -27,12 +40,21 @@ func (h taskHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: Return JSON response
-
-	fmt.Fprintf(w, "Task created with ID: %s", task.ID)
+	// Build result payload and encode it into response
+	data := dto.TaskCreateResponseDTO{
+		ID:     task.ID,
+		Status: task.Status,
+		Type:   task.Type,
+	}
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(data)
 }
 
 func (h taskHandler) GetByID(w http.ResponseWriter, r *http.Request) {
+	// TODO: Get task id from request
+
+	// TODO: Add input validation step
+
 	task, err := h.service.GetByID("f67d8b0f-d13d-4b50-8e67-ee2ed37b3dd8")
 	if err != nil {
 		// TODO: ???
@@ -41,7 +63,17 @@ func (h taskHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: Return JSON response
+	data := dto.TaskGetByIDResponseDTO{
+		ID:        task.ID,
+		Status:    task.Status,
+		Type:      task.Type,
+		Retries:   task.Retries,
+		Error:     task.Error,
+		Result:    task.Result,
+		Payload:   task.Payload,
+		CreatedAt: task.CreatedAt,
+		UpdatedAt: task.UpdatedAt,
+	}
 
-	fmt.Fprintf(w, "Task found with ID: %s", task.ID)
+	json.NewEncoder(w).Encode(data)
 }

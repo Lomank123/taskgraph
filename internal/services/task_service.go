@@ -22,7 +22,7 @@ func NewTaskService(db *gorm.DB) TaskService {
 }
 
 func (s taskService) Create(payload string) (*domain.Task, error) {
-	// TODO: Validate JSON payload
+	// TODO: change input params & Validate "payload" for valid JSON
 	task := &domain.Task{
 		Payload: payload,
 		Status:  enum.TaskStatusPending,

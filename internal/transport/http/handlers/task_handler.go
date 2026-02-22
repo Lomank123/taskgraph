@@ -22,9 +22,8 @@ func NewTaskHandler(service services.TaskService) TaskHandler {
 func (h taskHandler) Create(w http.ResponseWriter, r *http.Request) {
 	task, err := h.service.Create("dummy payload")
 	if err != nil {
-		// TOOD: ???
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(err.Error()))
+		w.Write([]byte(`{"error": "` + err.Error() + `"}`))
 		return
 	}
 

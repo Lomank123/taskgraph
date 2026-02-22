@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"net/http"
 	"taskgraph/config"
 	"taskgraph/internal/services"
 	httpTransport "taskgraph/internal/transport/http"
@@ -23,13 +21,10 @@ func main() {
 	}
 	log.Println("Database connected!")
 
-	log.Println("Starting server...")
+	log.Println("Starting server on port ", cfg.App.Port)
 	taskService := services.NewTaskService(db)
-	router := httpTransport.SetupRouter(taskService)
-	server := &http.Server{
-		Addr: fmt.Sprintf(":%s", cfg.App.Port),
-		Handler: router,
-	}
+	router := httpTransport.NewRouter(taskService)
+	server := httpTransport.NewHTTPServer(router)
 
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatal("FATAL ERROR: ", err)

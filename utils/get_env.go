@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"fmt"
+	"log"
 	"os"
 )
 
@@ -10,7 +10,7 @@ import (
 func GetEnv(key, fallback string) string {
 	val, ok := os.LookupEnv(key)
 	if !ok {
-		fmt.Println("Environment variable ", key, " not found, using fallback value: ", fallback)
+		log.Printf("Environment variable %s not found, using fallback value: %s", key, fallback)
 		return fallback
 	}
 	return val

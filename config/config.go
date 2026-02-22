@@ -3,7 +3,7 @@ package config
 import "taskgraph/utils"
 
 type Config struct {
-	App AppConfig
+	App      AppConfig
 	Postgres PostgresConfig
 }
 

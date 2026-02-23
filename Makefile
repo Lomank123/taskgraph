@@ -10,8 +10,8 @@ run-db:
 # Migrations
 
 goose-up:
-	goose -dir migrations postgres "host=localhost port=5436 user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} dbname=${POSTGRES_DB}" up
+	goose -dir migrations postgres "host=localhost port=${POSTGRES_PORT} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} dbname=${POSTGRES_DB}" up
 goose-down:
-	goose -dir migrations postgres "host=localhost port=5436 user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} dbname=${POSTGRES_DB}" down
+	goose -dir migrations postgres "host=localhost port=${POSTGRES_PORT} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} dbname=${POSTGRES_DB}" down
 goose-status:
-	goose -dir migrations postgres "host=localhost port=5436 user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} dbname=${POSTGRES_DB}" status
+	goose -dir migrations postgres "host=localhost port=${POSTGRES_PORT} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} dbname=${POSTGRES_DB}" status

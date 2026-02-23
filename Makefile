@@ -1,5 +1,5 @@
 run:
-	source .env &&go run cmd/app/main.go
+	-@source .env && go run cmd/app/main.go || true
 build:
 	go build -o bin/taskgraph cmd/app/main.go
 test:
